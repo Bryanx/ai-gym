@@ -7,26 +7,23 @@ class Agent:
     def __init__(self, gymName: str, episodes: int):
         self.env = gym.make(gymName)
         self.episodes = range(episodes)
-        self.mdp = MarkovDecisionProcess(16, 4)
+        self.strategy = Strategy()
 
     def learn(self):
         for n in self.episodes:
             oldState = self.env.reset()
             print("Episode: " + str(n))
             for t in range(100):
-                action = random.choice(self.mdp.actions)  # strategy should decide next action here
+                action = self.strategy.nextAction()  # strategy should decide next action here
                 newState, reward, done, info = self.env.step(action)
                 percept = Percept(oldState, reward, action, newState, done, info.get("prob"))
                 print(percept)
                 self.env.render()
-                self.mdp.update(percept)
+                self.strategy.learn(percept)
                 oldState = newState
                 if done:
                     print(f"Episode {n} finished after {t+1} timesteps")
                     break
-
-        # test here
-        print(self.mdp.stateTransitionModel[0][1][1])
 
 
 class MarkovDecisionProcess:
@@ -61,6 +58,30 @@ class Percept:
         else:
             actionStr = "right"
         return f'From {self.oldState} pressed {actionStr}, went to {self.nextState}, got reward {self.reward}'
+
+
+class Strategy:
+
+    def __init__(self):
+        self.mdp = MarkovDecisionProcess(16, 4)
+        self.policy = np.array()
+
+    def nextAction(self):
+        return random.choice(self.mdp.actions)
+
+    def learn(self, percept):
+        self.mdp.update(percept)
+
+        # test here
+        print(self.mdp.stateTransitionModel[0][1][1])
+
+    def evaluate(self):
+        pass
+
+    def improve(self):
+        pass
+        # def evaluatie learn roept deze aan
+        # def improve learn roept deze aan
 
 
 agent = Agent('FrozenLake-v0', episodes=100)
