@@ -5,29 +5,29 @@ import matplotlib.pyplot as plt
 
 
 class Agent:
-    def __init__(self, gymName: str, episodes: int):
-        self.env = gym.make(gymName)
+    def __init__(self, gym_name: str, episodes: int):
+        self.env = gym.make(gym_name)
         self.episodes = range(episodes)
         self.strategy = Strategy()
 
     def learn(self):
         for n in self.episodes:
-            oldState = self.env.reset()
+            old_state = self.env.reset()
             print("Episode: " + str(n))
             for t in range(100):
                 action = self.strategy.next_action()  # strategy should decide next action here
-                newState, reward, done, info = self.env.step(action)
-                percept = Percept(oldState, reward, action, newState, done, info.get("prob"))
+                new_state, reward, done, info = self.env.step(action)
+                percept = Percept(old_state, reward, action, new_state, done, info.get("prob"))
                 print(percept)
                 self.env.render()
                 self.strategy.learn(percept)
-                oldState = newState
+                old_state = new_state
                 if done:
                     print(f"Episode {n} finished after {t+1} timesteps")
                     break
-        self.test()
+        self.print()
 
-    def test(self):
+    def print(self):
         # testing / printing:
         v = self.strategy.v
         x = np.array([v[0:4], v[4:8], v[8:12], v[12:16]])
@@ -41,11 +41,11 @@ class Agent:
 
 
 class MarkovDecisionProcess:
-    def __init__(self, amountOfStates: int, amountOfActions: int):
-        states = np.arange(0, amountOfStates, 1)
-        self.rewardPerState = np.transpose((states, np.zeros(amountOfStates)))
-        self.actions = np.arange(0, amountOfActions, 1)
-        self.stateTransitionModel = np.zeros((amountOfStates, amountOfActions, amountOfStates))
+    def __init__(self, amount_of_states: int, amount_of_actions: int):
+        states = np.arange(0, amount_of_states, 1)
+        self.rewardPerState = np.transpose((states, np.zeros(amount_of_states)))
+        self.actions = np.arange(0, amount_of_actions, 1)
+        self.stateTransitionModel = np.zeros((amount_of_states, amount_of_actions, amount_of_states))
 
     def update(self, percept):
         self.stateTransitionModel[percept.oldState][percept.action][percept.nextState] = round(percept.prob, 2)
@@ -55,23 +55,22 @@ class MarkovDecisionProcess:
 
 
 class Percept:
-    def __init__(self, oldState: int, reward: int, action: int, nextState: int, finished: bool, prob: float):
-        self.oldState = oldState
+    def __init__(self, old_state: int, reward: int, action: int, next_state: int, finished: bool, prob: float):
+        self.oldState = old_state
         self.reward = reward
         self.action = action
-        self.nextState = nextState
+        self.nextState = next_state
         self.finished = finished
         self.prob = prob
 
     def __str__(self):
-        actionStr = ""
         if self.action == 0:
-            actionStr = "left"
+            action_str = "left"
         elif self.action == 1:
-            actionStr = "down"
+            action_str = "down"
         else:
-            actionStr = "right"
-        return f'From {self.oldState} pressed {actionStr}, went to {self.nextState}, got reward {self.reward}'
+            action_str = "right"
+        return f'From {self.oldState} pressed {action_str}, went to {self.nextState}, got reward {self.reward}'
 
 
 class Strategy:
