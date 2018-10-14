@@ -36,7 +36,7 @@ class Agent:
         for i in range(0, 4):
             for j in range(0, 4):
                 ax.text(j, i, round(x[i, j], 4),
-                        ha="center", va="center", color="b")
+                        ha="center", va="center", color="lightgrey")
         plt.show()
 
 
