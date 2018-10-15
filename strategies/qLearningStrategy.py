@@ -12,6 +12,7 @@ class Strategy:
         self.q = np.zeros((16, 4))  # -> q values -> for each state-action the average reward to the goal.
         self.gamma = 0.9  # discount factor -> determines the importance of future rewards.
         self.alpha = 0.1  # learning rate, determines to what extent new info overrides old info.
+        self.policy = np.full((16, 4), 0.25)
 
     def next_action(self):
         # get next action from policy here
@@ -31,9 +32,11 @@ class Strategy:
         self.q[s, a] += self.alpha * (r + self.gamma * (self.q[sn, 0:4].max() - self.q[s, a]))
 
         # update v-values to match max-q values
-        for i in range(0, 16):
+        for i in self.v:
             self.v[i] = self.q[i, 0:4].max()
 
     def improve(self):
-        # improve policy here
         pass
+        #for i in self.v:
+            # self.policy[]
+
