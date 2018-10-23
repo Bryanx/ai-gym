@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import gym
 
 from percept import Percept
-from strategies.qLearningStrategy import Strategy
+from strategies.valueIterationStrategy import Strategy
 
 
 class Agent:

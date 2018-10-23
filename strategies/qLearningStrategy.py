@@ -31,12 +31,8 @@ class Strategy:
         # q of current state = reward + max-q of next state    (gamma and alpha tweak the equation)
         self.q[s, a] += self.alpha * (r + self.gamma * (self.q[sn, 0:4].max() - self.q[s, a]))
 
+    def improve(self):
         # update v-values to match max-q values
         for i in range(0, 16):
             self.v[i] = self.q[i, 0:4].max()
-
-    def improve(self):
-        pass
-        #for i in self.v:
-            # self.policy[]
 

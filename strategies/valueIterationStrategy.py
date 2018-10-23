@@ -13,7 +13,7 @@ class Strategy:
         self.γ = 0.9  # discount factor -> determines the importance of future rewards.
         self.α = 0.1  # learning rate, determines to what extent new info overrides old info.
         self.policy = np.full((16, 4), 0.25)
-        self.ξ = 0 # todo
+        self.ξ = 0  # TODO: fijnheid bepalen
 
     def next_action(self):
         # get next action from policy here
@@ -25,18 +25,18 @@ class Strategy:
 
     # Value iteration
     def evaluate(self, percept: Percept):
-        self.mdp.update(percept)
-        s = percept.oldState
-        sn = percept.nextState
-        a = percept.action
-        r = percept.reward
+        global delta
+        rmax = max(self.mdp.rewardPerState)
+        while delta > 0.1:  # TODO: vervangen door benaderings factor
+            delta = 0
+            for state in range(0, 16):
+                oldValues = self.v
+                self.v = self.valueFunction()
+                delta = max(oldValues - self.v)
 
-        # update v-values to match max-q values
-        for i in self.v:
-            self.v[i] = self.q[i, 0:4].max()
+    def valueFunction(self):
+        # TODO: implement bellman funcion
+        return np.zeros(16)
 
     def improve(self):
         pass
-        #for i in self.v:
-            # self.policy[]
-
