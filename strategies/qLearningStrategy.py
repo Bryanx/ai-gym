@@ -32,7 +32,7 @@ class Strategy:
         self.q[s, a] += self.alpha * (r + self.gamma * (self.q[sn, 0:4].max() - self.q[s, a]))
 
         # update v-values to match max-q values
-        for i in self.v:
+        for i in range(0, 16):
             self.v[i] = self.q[i, 0:4].max()
 
     def improve(self):
