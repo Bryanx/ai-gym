@@ -39,18 +39,19 @@ class Strategy:
 
     def valueFunction(self, old_state: int):
         utilValues = np.zeros(16)
-        loopvalue = 0
-        for i in range(0,16):
 
-
-        for a in range(0, 4):
-            utilValues[s] = self.π[s, a] * self.mdp.stateTransitionModel[old_state, a, s] \
-                                 * self.mdp.rewardPerState[s] + (self.γ * self.valueFunctionRec())
+        for s in range(0,16):
+            for a in range(0, 4):
+                utilValues[s] = self.valueFunctionRec(old_state, a, 0)
 
         return utilValues
 
-    def valueFunctionRec(self, old_state: int, next_state: int):
-
+    def valueFunctionRec(self, old_state: int,  action: int, next_state: int):
+        if next_state >= 15:
+            return 0
+        else:
+            return self.π[old_state, action] * self.mdp.stateTransitionModel[old_state, action, next_state] \
+            * self.mdp.rewardPerState[next_state] + (self.γ * self.valueFunctionRec(old_state, action, next_state +1))
 
     def improve(self):
         pass

@@ -11,6 +11,7 @@ class MarkovDecisionProcess:
     def update(self, percept):
         self.stateTransitionModel[percept.oldState][percept.action][percept.nextState] = round(percept.prob, 2)
         self.rewardPerState[percept.nextState] = percept.reward
+        print(3)
 
     def __str__(self) -> str:
         return "Actions: \n" + str(self.stateTransitionModel) + "\nRewardPerState:\n" + str(self.rewardPerState)
