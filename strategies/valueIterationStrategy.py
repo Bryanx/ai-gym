@@ -36,7 +36,9 @@ class Strategy:
 
     def valueFunction(self):
         # TODO: implement bellman funcion
-        return np.zeros(16)
+        utilValues = np.zeros(16)
+        for i in range(0, 16):
+            pass
 
     def improve(self):
         pass
