@@ -12,7 +12,7 @@ class Strategy:
         self.q = np.zeros((16, 4))  # -> q values -> for each state-action the average reward to the goal.
         self.γ = 0.9  # discount factor -> determines the importance of future rewards.
         self.α = 0.1  # learning rate, determines to what extent new info overrides old info.
-        self.policy = np.full((16, 4), 0.25)
+        self.π = np.full((16, 4), 0.25)
         self.ξ = 0  # TODO: fijnheid bepalen
 
     def next_action(self):
@@ -25,10 +25,10 @@ class Strategy:
 
     # Value iteration
     def evaluate(self, percept: Percept):
-        global delta
+        Δ = 5000000
         rmax = max(self.mdp.rewardPerState)
-        while delta > 0.1:  # TODO: vervangen door benaderings factor
-            delta = 0
+        while Δ > 0.1:  # TODO: vervangen door benaderings factor
+            Δ = 0
             for state in range(0, 16):
                 oldValues = self.v
                 self.v = self.valueFunction()
