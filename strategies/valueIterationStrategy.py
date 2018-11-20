@@ -26,13 +26,14 @@ class Strategy:
     # Value iteration
     def evaluate(self, percept: Percept):
         Δ = 5000000
-        rmax = max(self.mdp.rewardPerState)
-        while Δ > 0.1:  # TODO: vervangen door benaderings factor
+        rmax = self.mdp.rewardPerState.max
+        while Δ > self.ξ * rmax * (1-self.γ/self.γ):
+            print("delta: " + Δ)
             Δ = 0
             for state in range(0, 16):
                 oldValues = self.v
                 self.v = self.valueFunction()
-                delta = max(oldValues - self.v)
+                Δ = max(oldValues - self.v)
 
     def valueFunction(self):
         # TODO: implement bellman funcion
