@@ -5,7 +5,6 @@ import gym
 from percept import Percept
 from strategies.valueIterationStrategy import Strategy
 
-
 class Agent:
     def __init__(self, gym_name: str, episodes: int):
         self.env = gym.make(gym_name)
@@ -29,10 +28,12 @@ class Agent:
                     break
         self.print()
 
+
     def print(self):
         # testing / printing:
         v = self.strategy.v
         x = np.array([v[0:4], v[4:8], v[8:12], v[12:16]])
+        test = self.strategy.mdp
         fig, ax = plt.subplots()
         ax.imshow(x, cmap='hot', interpolation='nearest')
         for i in range(0, 4):

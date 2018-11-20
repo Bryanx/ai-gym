@@ -25,21 +25,24 @@ class Strategy:
 
     # Value iteration
     def evaluate(self, percept: Percept):
+        self.mdp.update(percept)
+
         Δ = 5000000
-        rmax = self.mdp.rewardPerState.max
+        rmax = np.amax(self.mdp.rewardPerState)
         while Δ > self.ξ * rmax * (1 - self.γ / self.γ):
-            print("delta: " + Δ)
             Δ = 0
+            print(Δ)
             for state in range(0, 16):
                 old_values = self.v
-                self.v = self.valueFunction(percept)
+                self.v = self.valueFunction(percept.oldState)
                 Δ = max(old_values - self.v)
 
-    def valueFunction(self, percept: Percept):
+    def valueFunction(self, old_state: int):
         utilValues = np.zeros(16)
-        for i in range(0, 16):
-            utilValues[i] = self.mdp.stateTransitionModel[percept.oldState, percept.action, percept.nextState]\
-                            * percept.reward\
+        for s in range(0, 16):
+            for a in range(0, 4):
+                utilValues[s] = self.π[s, a] * self.mdp.stateTransitionModel[old_state, a, s] \
+                                 * self.mdp.rewardPerState[s] + self.γ * self.valueFunction(s)
 
         return utilValues
 
