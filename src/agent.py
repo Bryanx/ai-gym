@@ -1,15 +1,18 @@
-import numpy as np
 import matplotlib.pyplot as plt
 import gym
 
-from percept import Percept
-from strategies.valueIterationStrategy import Strategy
+from src.percept import Percept
+from src.strategies.monte_carlo import MonteCarlo
+from src.strategies.n_step_q_learning import NstepQlearning
+from src.strategies.q_learning import Qlearning
+from src.strategies.value_iteration import ValueIteration
+
 
 class Agent:
-    def __init__(self, gym_name: str, episodes: int):
+    def __init__(self, gym_name: str, episode_count: int):
         self.env = gym.make(gym_name)
-        self.episodes = range(episodes)
-        self.strategy = Strategy()
+        self.episodes = range(episode_count)
+        self.strategy = Qlearning(self.env, episode_count)
 
     def learn(self):
         for n in self.episodes:
@@ -28,16 +31,14 @@ class Agent:
                     break
         self.print()
 
-
+    # testing / printing:
     def print(self):
-        # testing / printing:
-        v = self.strategy.v
-        x = np.array([v[0:4], v[4:8], v[8:12], v[12:16]])
-        test = self.strategy.mdp
+        ncol = self.env.unwrapped.ncol
+        nrow = self.env.unwrapped.nrow
+        x = self.strategy.v.reshape(nrow, ncol)
         fig, ax = plt.subplots()
         ax.imshow(x, cmap='hot', interpolation='nearest')
-        for i in range(0, 4):
-            for j in range(0, 4):
-                ax.text(j, i, round(x[i, j], 4),
-                        ha="center", va="center", color="lightgrey")
+        for i in range(0, nrow):
+            for j in range(0, ncol):
+                ax.text(j, i, round(x[i, j], 4), ha="center", va="center", color="lightgrey")
         plt.show()
