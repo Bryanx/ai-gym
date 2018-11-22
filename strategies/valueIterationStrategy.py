@@ -31,27 +31,21 @@ class Strategy:
         rmax = np.amax(self.mdp.rewardPerState)
         while Δ > self.ξ * rmax * (1 - self.γ / self.γ):
             Δ = 0
-            print(Δ)
-            for state in range(0, 16):
-                old_values = self.v
-                self.v = self.valueFunction(percept.oldState)
-                Δ = max(old_values - self.v)
+            for s in range(0, 16):
+                old_value = self.v[s]
+                self.v[s] = self.valueFunction(s)
+                Δ = abs(old_value - self.v[s])
 
-    def valueFunction(self, old_state: int):
-        utilValues = np.zeros(16)
-
-        for s in range(0,16):
-            for a in range(0, 4):
-                utilValues[s] = self.valueFunctionRec(old_state, a, 0)
-
-        return utilValues
-
-    def valueFunctionRec(self, old_state: int,  action: int, next_state: int):
-        if next_state >= 15:
-            return 0
-        else:
-            return self.π[old_state, action] * self.mdp.stateTransitionModel[old_state, action, next_state] \
-            * self.mdp.rewardPerState[next_state] + (self.γ * self.valueFunctionRec(old_state, action, next_state +1))
+    def valueFunction(self, s: int):
+        newV = self.v[s]
+        A = np.zeros(4)
+        for a in range(0, 4):
+            for next_s in range(0, 16):
+                prob = self.mdp.stateTransitionModel[s, a, next_s]
+                reward = self.mdp.rewardPerState[next_s]
+                A[a] += prob * (reward + self.γ * self.v[next_s])
+            newV = round(np.max(A),5)
+        return newV
 
     def improve(self):
         pass
