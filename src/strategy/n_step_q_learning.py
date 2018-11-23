@@ -1,21 +1,31 @@
+from gym import Env
+
 from src.model.percept import Percept
 from src.strategy.strategy import Strategy
 
 
 class NstepQlearning(Strategy):
+    def __init__(self, env: Env, epsiode_cound: int):
+        super().__init__(env, epsiode_cound)
+        self.n = 3  # amount of steps
+        self.p = []  # list of percepts, used as a buffer
 
     def evaluate(self, percept: Percept):
+        # Update mdp wih percept
         self.mdp.update(percept)
+
         # buffer all percepts:
         self.p = [percept] + self.p
         print(self.v)
+
         # clear buffer:
         if len(self.p) > self.n:
-            for p_item in self.p:
-                s = p_item.oldState
-                a = p_item.action
-                r = p_item.reward
+            for cur_percept in self.p:
+                s = cur_percept.oldState
+                a = cur_percept.action
+                r = cur_percept.reward
                 q = self.q
+
                 max_q_next_state = q[percept.nextState, 0:self.action_count].max()
                 q[s, a] -= self.α * (q[s, a] - (r + self.γ * max_q_next_state))
 

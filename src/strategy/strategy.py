@@ -20,9 +20,6 @@ class Strategy:
         self.π = np.full((self.state_count, self.action_count), 0.25)  # policy
         self.ξ = 0.1  # fineness factor
 
-        self.n = 50  # amount of steps
-        self.p = []  # list of percepts, used as a buffer
-
     def next_action(self):
         # get next action from policy here
         return random.choice(self.mdp.actions)
