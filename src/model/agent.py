@@ -3,13 +3,15 @@ import gym
 
 from src.model.percept import Percept
 from src.strategy.q_learning import Qlearning
+from src.strategy.strategy import Strategy
+from src.strategy.n_step_q_learning import NstepQlearning
 
 
 class Agent:
     def __init__(self, gym_name: str, episode_count: int):
         self.env = gym.make(gym_name)
         self.episodes = range(episode_count)
-        self.strategy = Qlearning(self.env, episode_count)
+        self.strategy: Strategy = NstepQlearning(self.env, episode_count)
 
     def learn(self):
         for n in self.episodes:

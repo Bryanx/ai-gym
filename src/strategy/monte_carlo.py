@@ -9,9 +9,3 @@ class MonteCarlo(NstepQlearning):
         super().__init__(env, episode_count)
         self.n = self.episode_count
         self.p = []  # list of percepts, used as a buffer
-
-    def evaluate(self, percept: Percept):
-        pass
-
-    def improve(self):
-        pass

@@ -3,7 +3,6 @@ from src.strategy.strategy import Strategy
 
 
 class Qlearning(Strategy):
-
     def evaluate(self, percept: Percept):
         self.mdp.update(percept)
         s = percept.oldState
