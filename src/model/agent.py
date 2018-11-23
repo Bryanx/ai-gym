@@ -1,11 +1,8 @@
 import matplotlib.pyplot as plt
 import gym
 
-from src.percept import Percept
-from src.strategies.monte_carlo import MonteCarlo
-from src.strategies.n_step_q_learning import NstepQlearning
-from src.strategies.q_learning import Qlearning
-from src.strategies.value_iteration import ValueIteration
+from src.model.percept import Percept
+from src.strategy.q_learning import Qlearning
 
 
 class Agent:

@@ -1,4 +1,4 @@
-from src.strategies.n_step_q_learning import NstepQlearning
+from src.strategy.n_step_q_learning import NstepQlearning
 
 
 class MonteCarlo(NstepQlearning):

@@ -1,7 +1,7 @@
 import numpy as np
 
-from src.percept import Percept
-from src.strategies.strategy import Strategy
+from src.model.percept import Percept
+from src.strategy.strategy import Strategy
 
 
 class ValueIteration(Strategy):

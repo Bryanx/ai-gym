@@ -1,10 +1,10 @@
 from gym import Env
 
-from src.models.mdp import MarkovDecisionProcess
+from src.model.mdp import MarkovDecisionProcess
 import numpy as np
 import random
 
-from src.percept import Percept
+from src.model.percept import Percept
 
 
 class Strategy:

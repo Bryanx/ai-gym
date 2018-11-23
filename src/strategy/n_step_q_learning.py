@@ -1,5 +1,5 @@
-from src.percept import Percept
-from src.strategies.strategy import Strategy
+from src.model.percept import Percept
+from src.strategy.strategy import Strategy
 
 
 class NstepQlearning(Strategy):
