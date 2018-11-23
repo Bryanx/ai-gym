@@ -6,8 +6,10 @@ class NstepQlearning(Strategy):
 
     def evaluate(self, percept: Percept):
         self.mdp.update(percept)
+        # buffer all percepts:
         self.p = [percept] + self.p
         print(self.v)
+        # clear buffer:
         if len(self.p) > self.n:
             for p_item in self.p:
                 s = p_item.oldState
