@@ -13,7 +13,7 @@ class Agent:
     def __init__(self, gym_name: str, episode_count: int):
         self.env = gym.make(gym_name)
         self.episodes = range(episode_count)
-        self.strategy: Strategy = ValueIteration(self.env, episode_count)
+        self.strategy: Strategy = MonteCarlo(self.env, episode_count)
 
     def learn(self):
         for n in self.episodes:
@@ -42,4 +42,5 @@ class Agent:
         for i in range(0, nrow):
             for j in range(0, ncol):
                 ax.text(j, i, round(x[i, j], 4), ha="center", va="center", color="lightgrey")
+        plt.title(self.strategy.__class__.__name__)
         plt.show()
