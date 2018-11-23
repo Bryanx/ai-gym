@@ -6,6 +6,16 @@ from src.strategy.n_step_q_learning import NstepQlearning
 
 class MonteCarlo(NstepQlearning):
     def __init__(self, env: Env, episode_count: int):
-        super().__init__(env, episode_count)
-        self.n = self.episode_count
-        self.p = []  # list of percepts, used as a buffer
+        super().__init__(env, episode_count, episode_count)
+
+    def evaluate(self, percept: Percept):
+        # Update mdp wih percept
+        self.mdp.update(percept)
+
+        # buffer all percepts:
+        self.P = [percept] + self.P
+
+        # clear buffer:
+        if percept.finished:
+            self.update_q_values()
+            self.P = []
