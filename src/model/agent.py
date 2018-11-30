@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import gym
-
+import numpy as np
 from src.model.percept import Percept
 from src.strategy.q_learning import Qlearning
 from src.strategy.strategy import Strategy
@@ -13,7 +13,7 @@ class Agent:
     def __init__(self, gym_name: str, episode_count: int):
         self.env = gym.make(gym_name)
         self.episodes = range(episode_count)
-        self.strategy: Strategy = MonteCarlo(self.env, episode_count)
+        self.strategy: Strategy = ValueIteration(self.env, episode_count)
 
     def learn(self):
         for n in self.episodes:
@@ -30,10 +30,11 @@ class Agent:
                 if done:
                     print(f"Episode {n} finished after {t+1} timesteps")
                     break
-        self.print()
+        # testing / printing:
+        self.print_policy()
+        self.plot_heatmap()
 
-    # testing / printing:
-    def print(self):
+    def plot_heatmap(self):
         ncol = self.env.unwrapped.ncol
         nrow = self.env.unwrapped.nrow
         x = self.strategy.v.reshape(nrow, ncol)
@@ -44,3 +45,23 @@ class Agent:
                 ax.text(j, i, round(x[i, j], 4), ha="center", va="center", color="lightgrey")
         plt.title(self.strategy.__class__.__name__)
         plt.show()
+
+    def print_policy(self):
+        i = 0
+        directions = np.chararray(16, unicode=True)
+        for policy_row in self.strategy.π:
+            a = np.argmax(policy_row)
+            if a == 0:
+                directions[i] = '🡐'
+            elif a == 1:
+                directions[i] = '🡓'
+            elif a == 2:
+                directions[i] = '🡒'
+            else:
+                directions[i] = '🡑'
+            i += 1
+        ncol = self.env.unwrapped.ncol
+        nrow = self.env.unwrapped.nrow
+        directions = directions.reshape(nrow, ncol)
+        print(directions)
+        print(self.strategy.π)

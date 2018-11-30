@@ -1,4 +1,5 @@
 import numpy as np
+from gym import Env
 
 from src.model.percept import Percept
 from src.strategy.strategy import Strategy
@@ -6,12 +7,17 @@ from src.strategy.strategy import Strategy
 
 class ValueIteration(Strategy):
 
+    def __init(self, env: Env, episode_count: int):
+        super().__init__(env, episode_count)
+
     # Value iteration
     def evaluate(self, percept: Percept):
         self.mdp.update(percept)
+        # TODO: These next 2 variables should be fields.
+        ξ = 0.1  # precision factor
         Δ = 5000000
         rmax = np.amax(self.mdp.rewardPerState)
-        while Δ > self.ξ * rmax * (1 - self.γ / self.γ):
+        while Δ > ξ * rmax * (1 - self.γ / self.γ):
             Δ = 0
             for s in range(0, self.state_count):
                 old_value = self.v[s]
@@ -19,15 +25,20 @@ class ValueIteration(Strategy):
                 Δ = abs(old_value - self.v[s])
 
     def value_function(self, s: int):
-        newV = self.v[s]
+        A = self.get_action_values(s)
+        return round(np.max(A), 5)
+
+    # policy improvement will use this function.
+    def get_best_action_for_state(self, s: int):
+        A = self.get_action_values(s)
+        return np.argmax(A)
+
+    # returns the v-values for each action given a certain state.
+    def get_action_values(self, s: int):
         A = np.zeros(self.action_count)
-        for a in range(0, self.action_count):
-            for next_s in range(0, self.state_count):
+        for a in self.mdp.A:
+            for next_s in self.mdp.S:
                 prob = self.mdp.stateTransitionModel[s, a, next_s]
                 reward = self.mdp.rewardPerState[next_s]
                 A[a] += prob * (reward + self.γ * self.v[next_s])
-            newV = round(np.max(A), 5)
-        return newV
-
-    def improve(self):
-        pass  # TODO
+        return A

@@ -1,20 +1,21 @@
+import numpy as np
+
 from src.model.percept import Percept
 from src.strategy.strategy import Strategy
 
-
 class Qlearning(Strategy):
+
     def evaluate(self, percept: Percept):
         self.mdp.update(percept)
-        s = percept.oldState
-        a = percept.action
-        r = percept.reward
-        q = self.q
+        # fields to attributes for reading purposes
+        s, a, r, q, α, γ = percept.oldState, percept.action, percept.reward, self.q, self.α, self.γ
+        S = np.arange(0, self.state_count, 1)
+
         max_q_next_state = q[percept.nextState, 0:self.action_count].max()
         # q of current state = reward + max-q of next state    (gamma and alpha tweak the equation)
-        q[s, a] += self.α * (r + self.γ * (max_q_next_state - q[s, a]))
+        self.q[s, a] += α * (r + γ * (max_q_next_state - q[s, a]))
+        self.update_v_values()
 
-    def improve(self):
-        # update v-values to match max-q values
-        for i in range(0, self.state_count):
-            self.v[i] = self.q[i, 0:self.action_count].max()
-
+    def update_v_values(self):
+        for s in self.mdp.S:
+            self.v[s] = self.q[s, 0:self.action_count].max()
