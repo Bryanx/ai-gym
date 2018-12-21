@@ -1,19 +1,15 @@
 import matplotlib.pyplot as plt
-import gym
 import numpy as np
+
 from src.model.percept import Percept
-from src.strategy.q_learning import Qlearning
 from src.strategy.strategy import Strategy
-from src.strategy.n_step_q_learning import NstepQlearning
-from src.strategy.value_iteration import ValueIteration
-from src.strategy.monte_carlo import MonteCarlo
 
 
 class Agent:
-    def __init__(self, gym_name: str, episode_count: int):
-        self.env = gym.make(gym_name)
-        self.episodes = range(episode_count)
-        self.strategy: Strategy = ValueIteration(self.env, episode_count)
+    def __init__(self, strategy: Strategy):
+        self.env = strategy.env
+        self.episodes = range(strategy.episode_count)
+        self.strategy: Strategy = strategy
 
     def learn(self):
         for n in self.episodes:

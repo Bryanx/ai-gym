@@ -3,7 +3,8 @@ import numpy as np
 from src.model.percept import Percept
 from src.strategy.strategy import Strategy
 
-class Qlearning(Strategy):
+
+class QLearning(Strategy):
 
     def evaluate(self, percept: Percept):
         self.mdp.update(percept)

@@ -1,5 +1,12 @@
+import gym
 from src.model.agent import Agent
 from gym.envs.registration import register
+from src.strategy.q_learning import QLearning
+from src.strategy.strategy import Strategy
+from src.strategy.n_step_q_learning import NstepQlearning
+from src.strategy.value_iteration import ValueIteration
+from src.strategy.monte_carlo import MonteCarlo
+
 register(
     id='FrozenLakeNotSlippery-v0',
     entry_point='gym.envs.toy_text:FrozenLakeEnv',
@@ -9,5 +16,6 @@ register(
 )
 
 if __name__ == '__main__':
-    agent = Agent('FrozenLakeNotSlippery-v0', episode_count=1000)
+    strategy: Strategy = QLearning(gym.make('FrozenLakeNotSlippery-v0'), episode_count=1000)
+    agent = Agent(strategy)
     agent.learn()
