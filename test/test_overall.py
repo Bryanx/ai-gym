@@ -1,6 +1,6 @@
 import unittest
-
 import gym
+
 from gym.envs.registration import register
 from src.model.agent import Agent
 from src.strategy.monte_carlo import MonteCarlo
@@ -18,7 +18,7 @@ register(
 )
 
 
-class TestStrategies(unittest.TestCase):
+class TestOverall(unittest.TestCase):
 
     def test_value_iteration(self):
         strategy: Strategy = ValueIteration(gym.make('FrozenLakeNotSlippery-v0'), episode_count=1000)
@@ -35,3 +35,8 @@ class TestStrategies(unittest.TestCase):
     def test_monte_carlo(self):
         strategy: Strategy = MonteCarlo(gym.make('FrozenLakeNotSlippery-v0'), episode_count=1000)
         Agent(strategy).learn()
+
+    def test_strategy(self):
+        strategy: Strategy = QLearning(gym.make('FrozenLakeNotSlippery-v0'), episode_count=1000)
+        agent: Agent = Agent(strategy)
+        self.assertEqual(agent.strategy.__class__.__name__, 'QLearning')
