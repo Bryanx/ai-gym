@@ -40,3 +40,8 @@ class TestOverall(unittest.TestCase):
         strategy: Strategy = QLearning(gym.make('FrozenLakeNotSlippery-v0'), episode_count=1000)
         agent: Agent = Agent(strategy)
         self.assertEqual(agent.strategy.__class__.__name__, 'QLearning')
+
+    def test_episode_count(self):
+        strategy: Strategy = QLearning(gym.make('FrozenLakeNotSlippery-v0'), episode_count=500)
+        agent: Agent = Agent(strategy)
+        self.assertEqual(agent.episodes.__len__(), 500)

@@ -15,7 +15,7 @@ class MonteCarlo(NstepQlearning):
         # buffer all percepts:
         self.P = [percept] + self.P
 
-        # clear buffer:
+        # clear buffer if agent has finished episode:
         if percept.finished:
             self.update_q_values()
             self.P = []

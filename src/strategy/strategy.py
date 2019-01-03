@@ -30,9 +30,11 @@ class Strategy:
         self.εmax = 1  # the max exploration factor
         self.t = 0  # time factor
 
-    def next_action(self):
+    # TODO: fix
+    def next_action(self, state):
         # get next action from policy here
-        return random.choice(self.mdp.A)
+        # return    np.random.choice(np.arange(self.action_count), 1, p=self.π[state])[0]
+        return np.random.choice(self.mdp.A)
 
     def learn(self, percept: Percept):
         self.evaluate(percept)

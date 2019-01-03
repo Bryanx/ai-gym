@@ -16,7 +16,7 @@ class Agent:
             old_state = self.env.reset()
             print("Episode: " + str(n))
             for t in range(100):
-                action = self.strategy.next_action()  # strategy should decide next action here
+                action = self.strategy.next_action(old_state)  # strategy should decide next action here
                 new_state, reward, done, info = self.env.step(action)
                 percept = Percept(old_state, reward, action, new_state, done, info.get("prob"))
                 print(percept)
