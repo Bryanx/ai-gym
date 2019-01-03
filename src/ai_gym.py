@@ -16,6 +16,6 @@ register(
 )
 
 if __name__ == '__main__':
-    strategy: Strategy = QLearning(gym.make('FrozenLakeNotSlippery-v0'), episode_count=1000)
+    strategy: Strategy = ValueIteration(gym.make('FrozenLakeNotSlippery-v0'), episode_count=1000)
     agent = Agent(strategy)
     agent.learn()

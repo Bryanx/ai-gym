@@ -7,22 +7,22 @@ from src.strategy.strategy import Strategy
 
 class ValueIteration(Strategy):
 
-    def __init(self, env: Env, episode_count: int):
+    def __init__(self, env: Env, episode_count: int):
         super().__init__(env, episode_count)
+        self.ξ = 0.1
+        self.Δ = None
 
     # Value iteration
     def evaluate(self, percept: Percept):
         self.mdp.update(percept)
-        # TODO: These next 2 variables should be fields.
-        ξ = 0.1  # precision factor
-        Δ = 5000000
         rmax = np.amax(self.mdp.rewardPerState)
-        while Δ > ξ * rmax * (1 - self.γ / self.γ):
-            Δ = 0
+        self.Δ = 50000000
+        while self.Δ > self.ξ * rmax * (1 - self.γ / self.γ):
+            self.Δ = 0
             for s in range(0, self.state_count):
                 old_value = self.v[s]
                 self.v[s] = self.value_function(s)
-                Δ = abs(old_value - self.v[s])
+                self.Δ = abs(old_value - self.v[s])
 
     def value_function(self, s: int):
         A = self.get_action_values(s)

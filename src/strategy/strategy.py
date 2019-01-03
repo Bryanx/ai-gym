@@ -34,7 +34,7 @@ class Strategy:
         # get next action from policy here
         return random.choice(self.mdp.A)
 
-    def learn(self, percept):
+    def learn(self, percept: Percept):
         self.evaluate(percept)
         self.improve()
 
