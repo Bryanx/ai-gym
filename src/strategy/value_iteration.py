@@ -12,6 +12,7 @@ class ValueIteration(Strategy):
         self.ξ = 0.1
         self.Δ = None
 
+    # TODO: fix
     # Value iteration
     def evaluate(self, percept: Percept):
         self.mdp.update(percept)
