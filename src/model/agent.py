@@ -19,7 +19,6 @@ class Agent:
                 action = self.strategy.next_action(old_state)  # strategy should decide next action here
                 new_state, reward, done, info = self.env.step(action)
                 percept = Percept(old_state, reward, action, new_state, done, info.get("prob"))
-                print(percept)
                 self.env.render()
                 self.strategy.learn(percept)
                 old_state = new_state

@@ -10,7 +10,7 @@ class TestMDP(unittest.TestCase):
     mdp.update(percept)
 
     def test_reward_per_state(self):
-        self.assertEqual(1, 1)
+        self.assertEqual(self.mdp.rewardPerState[15], 1)
 
     def test_state_transitioning_model(self):
-        self.assertEqual(1, 1)
+        self.assertEqual(self.mdp.stateTransitionModel[14][2][15], 0.33)

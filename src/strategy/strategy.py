@@ -1,8 +1,8 @@
 from gym import Env
+import random
 
 from src.model.mdp import MarkovDecisionProcess
 import numpy as np
-import random
 from math import e
 
 from src.model.percept import Percept
@@ -33,8 +33,20 @@ class Strategy:
     # TODO: fix
     def next_action(self, state):
         # get next action from policy here
-        # return    np.random.choice(np.arange(self.action_count), 1, p=self.π[state])[0]
+        # return np.random.choice(np.arange(self.action_count), 1, p=self.π[state])[0]
+        # return self.pick_choice(state)
         return np.random.choice(self.mdp.A)
+
+    def pick_choice(self, state):
+        random_number = random.uniform(0.0, 1.0)  # 0.22
+        print(random_number)
+        cul_prob = 0
+
+        for i in range(4):
+            cul_prob += self.π[state][i]  # 0.25
+            print(self.π[state])
+            if random_number <= cul_prob:
+                return i
 
     def learn(self, percept: Percept):
         self.evaluate(percept)
@@ -56,4 +68,5 @@ class Strategy:
             self.ε = εmin + (εmax - εmin) * e ** (-λ * t)
 
     def get_best_action_for_state(self, s: int):
-        return np.argmax([self.q[s, a] for a in self.mdp.A])
+        best_action = np.random.choice(np.flatnonzero(self.q[s] == self.q[s].max()))
+        return best_action

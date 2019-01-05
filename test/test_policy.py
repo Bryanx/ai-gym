@@ -24,5 +24,5 @@ class test_policy(unittest.TestCase):
         agent: Agent = Agent(strategy)
         agent.learn()
 
-        for s in np.arange(strategy.state_count):
+        for s in range(strategy.state_count):
             self.assertEqual(sum(strategy.π[s]), 1.0)
