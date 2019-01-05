@@ -38,15 +38,15 @@ class Strategy:
         return np.random.choice(self.mdp.A)
 
     def pick_choice(self, state):
-        random_number = random.uniform(0.0, 1.0)  # 0.22
-        print(random_number)
-        cul_prob = 0
+        selection = list()
+        policy_of_state = self.π[state]
 
         for i in range(4):
-            cul_prob += self.π[state][i]  # 0.25
-            print(self.π[state])
-            if random_number <= cul_prob:
-                return i
+            number_of_times = int(round(policy_of_state[i] * 100))
+            for j in range(number_of_times):
+                selection.append(i)
+
+        return np.random.choice(selection)
 
     def learn(self, percept: Percept):
         self.evaluate(percept)
