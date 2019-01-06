@@ -19,7 +19,7 @@ class ValueIteration(Strategy):
         self.Δ = 50000000
         while self.Δ > self.ξ * rmax * (1 - self.γ / self.γ):
             self.Δ = 0
-            for s in range(0, self.state_count):
+            for s in self.mdp.S:
                 old_value = self.v[s]
                 self.v[s] = self.value_function(s)
                 self.Δ = abs(old_value - self.v[s])
@@ -31,7 +31,7 @@ class ValueIteration(Strategy):
     # policy improvement will use this function.
     def get_best_action_for_state(self, s: int):
         A = self.get_action_values(s)
-        return np.argmax(A)
+        return np.random.choice(np.flatnonzero(A == A.max()))
 
     # returns the v-values for each action given a certain state.
     def get_action_values(self, s: int):

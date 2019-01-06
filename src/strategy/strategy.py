@@ -34,17 +34,17 @@ class Strategy:
     def next_action(self, state):
         # get next action from policy here
         # return np.random.choice(np.arange(self.action_count), 1, p=self.π[state])[0]
-        # return self.pick_choice(state)
-        return np.random.choice(self.mdp.A)
+        return self.pick_choice(state)
+        # return np.random.choice(self.mdp.A)
 
     def pick_choice(self, state):
         selection = list()
         policy_of_state = self.π[state]
 
-        for i in range(4):
-            number_of_times = int(round(policy_of_state[i] * 100))
+        for a in self.mdp.A:
+            number_of_times = int(round(policy_of_state[a] * 100))
             for j in range(number_of_times):
-                selection.append(i)
+                selection.append(a)
 
         return np.random.choice(selection)
 
@@ -67,6 +67,6 @@ class Strategy:
                     self.π[s, a] = self.ε / len(A)
             self.ε = εmin + (εmax - εmin) * e ** (-λ * t)
 
+    # if 2 q values are max a random choice is made.
     def get_best_action_for_state(self, s: int):
-        best_action = np.random.choice(np.flatnonzero(self.q[s] == self.q[s].max()))
-        return best_action
+        return np.random.choice(np.flatnonzero(self.q[s] == self.q[s].max()))
