@@ -25,7 +25,8 @@ class Agent:
                 if done:
                     print(f"Episode {n} finished after {t+1} timesteps")
                     break
-        # testing / printing:
+
+        # printing policy and showing heatmap:
         self.print_policy()
         self.plot_heatmap()
 

@@ -1,10 +1,10 @@
 from gym import Env
 
 from src.model.percept import Percept
-from src.strategy.n_step_q_learning import NstepQlearning
+from src.strategy.n_step_q_learning import NStepQLearning
 
 
-class MonteCarlo(NstepQlearning):
+class MonteCarlo(NStepQLearning):
     def __init__(self, env: Env, episode_count: int):
         super().__init__(env, episode_count, episode_count)
 
@@ -13,7 +13,7 @@ class MonteCarlo(NstepQlearning):
         self.mdp.update(percept)
 
         # buffer all percepts:
-        self.P = [percept] + self.P
+        self.P.insert(0, percept)
 
         # clear buffer if agent has finished episode:
         if percept.finished:

@@ -1,10 +1,9 @@
-from gym import Env
-import random
-
-from src.model.mdp import MarkovDecisionProcess
-import numpy as np
 from math import e
 
+import numpy as np
+from gym import Env
+
+from src.model.mdp import MarkovDecisionProcess
 from src.model.percept import Percept
 
 
@@ -30,12 +29,9 @@ class Strategy:
         self.εmax = 1  # the max exploration factor
         self.t = 0  # time factor
 
-    # TODO: fix
     def next_action(self, state):
-        # get next action from policy here
-        # return np.random.choice(np.arange(self.action_count), 1, p=self.π[state])[0]
+        # return np.random.choice(np.arange(self.action_count), 1, p=self.π[state])[0] (werkt niet bij ons)
         return self.pick_choice(state)
-        # return np.random.choice(self.mdp.A)
 
     def pick_choice(self, state):
         selection = list()
@@ -53,7 +49,7 @@ class Strategy:
         self.improve()
 
     def evaluate(self, percept: Percept):
-        raise NotImplementedError("Please Implement this method")
+        raise NotImplementedError("Please implement this method.")
 
     def improve(self):
         εmax, εmin, q, α, λ, t, S, A = self.εmax, self.εmin, self.q, self.α, self.λ, self.t, self.mdp.S, self.mdp.A

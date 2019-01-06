@@ -4,7 +4,7 @@ import gym
 from gym.envs.registration import register
 from src.model.agent import Agent
 from src.strategy.monte_carlo import MonteCarlo
-from src.strategy.n_step_q_learning import NstepQlearning
+from src.strategy.n_step_q_learning import NStepQLearning
 from src.strategy.q_learning import QLearning
 from src.strategy.strategy import Strategy
 from src.strategy.value_iteration import ValueIteration
@@ -31,7 +31,7 @@ class TestOverall(unittest.TestCase):
         self.assertTrue(strategy.π.max() <= 1 and strategy.π.min() >= 0)
 
     def test_n_step_q_learning(self):
-        strategy: Strategy = NstepQlearning(gym.make('FrozenLakeNotSlippery-v0'), episode_count=1000)
+        strategy: Strategy = NStepQLearning(gym.make('FrozenLakeNotSlippery-v0'), episode_count=1000)
         Agent(strategy).learn()
         self.assertTrue(strategy.π.max() <= 1 and strategy.π.min() >= 0)
 
