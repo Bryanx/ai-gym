@@ -23,18 +23,22 @@ class TestOverall(unittest.TestCase):
     def test_value_iteration(self):
         strategy: Strategy = ValueIteration(gym.make('FrozenLakeNotSlippery-v0'), episode_count=1000)
         Agent(strategy).learn()
+        self.assertTrue(strategy.π.max() <= 1 and strategy.π.min() >= 0)
 
     def test_q_learning(self):
         strategy: Strategy = QLearning(gym.make('FrozenLakeNotSlippery-v0'), episode_count=1000)
         Agent(strategy).learn()
+        self.assertTrue(strategy.π.max() <= 1 and strategy.π.min() >= 0)
 
     def test_n_step_q_learning(self):
         strategy: Strategy = NstepQlearning(gym.make('FrozenLakeNotSlippery-v0'), episode_count=1000)
         Agent(strategy).learn()
+        self.assertTrue(strategy.π.max() <= 1 and strategy.π.min() >= 0)
 
     def test_monte_carlo(self):
         strategy: Strategy = MonteCarlo(gym.make('FrozenLakeNotSlippery-v0'), episode_count=1000)
         Agent(strategy).learn()
+        self.assertTrue(strategy.π.max() <= 1 and strategy.π.min() >= 0)
 
     def test_strategy(self):
         strategy: Strategy = QLearning(gym.make('FrozenLakeNotSlippery-v0'), episode_count=1000)
