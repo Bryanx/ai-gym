@@ -14,7 +14,7 @@ class QLearning(Strategy):
         max_q_next_state = q[percept.nextState, 0:self.action_count].max()
 
         # q of current state = reward + max-q of next state    (gamma and alpha tweak the equation)
-        self.q[s, a] += α * (r + γ * (max_q_next_state - q[s, a]))
+        self.q[s, a] += α * (r + γ * max_q_next_state - q[s, a])
         self.update_v_values()
 
     def update_v_values(self):
