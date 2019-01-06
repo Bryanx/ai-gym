@@ -1,6 +1,4 @@
 import unittest
-import numpy as np
-from time import sleep
 
 import gym
 from gym.envs.registration import register
