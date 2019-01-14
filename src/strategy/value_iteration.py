@@ -9,8 +9,8 @@ class ValueIteration(Strategy):
 
     def __init__(self, env: Env, episode_count: int):
         super().__init__(env, episode_count)
-        self.ξ = 0.1
-        self.Δ = None
+        self.ξ = 0.1  # The v-values precession we need to achieve
+        self.Δ = None  # Delta, absolute difference between 2 v-values from one state
 
     # Value iteration
     def evaluate(self, percept: Percept):

@@ -44,7 +44,7 @@ class Agent:
 
     def print_policy(self):
         i = 0
-        directions = np.chararray(16, unicode=True)
+        directions = np.chararray(self.strategy.mdp.S.__len__(), unicode=True)
         for policy_row in self.strategy.π:
             a = np.argmax(policy_row)
             if a == 0:
