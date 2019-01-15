@@ -25,9 +25,9 @@ class NStepQLearning(Strategy):
 
     def update_q_values(self):
         for p in self.P:
-            s, a, r, q = p.oldState, p.action, p.reward, self.q
+            s, a, r, q, α, γ = p.oldState, p.action, p.reward, self.q, self.α, self.γ
             max_q_next_state = q[p.nextState, 0:self.action_count].max()
-            self.q[s, a] -= self.α * (q[s, a] - (r + self.γ * max_q_next_state))
+            self.q[s, a] += α * (r + γ * max_q_next_state - q[s, a])
         self.update_v_values()
 
     def update_v_values(self):
