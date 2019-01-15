@@ -1,22 +1,16 @@
+from gym import Env
+
 from src.model.percept import Percept
+from src.strategy.n_step_q_learning import NStepQLearning
 from src.strategy.strategy import Strategy
 
 
-class QLearning(Strategy):
+class QLearning(NStepQLearning):
+
+    def __init__(self, env: Env, episode_count: int):
+        super().__init__(env, episode_count, 1)
 
     def evaluate(self, percept: Percept):
         self.mdp.update(percept)
         self.update_q_value(percept)
         self.update_v_values()
-
-    def update_q_value(self, percept: Percept):
-        # fields to attributes for reading purposes
-        s, a, r, q, α, γ = percept.oldState, percept.action, percept.reward, self.q, self.α, self.γ
-        max_q_next_state = q[percept.nextState, 0:self.action_count].max()
-
-        # q of current state = reward + max-q of next state (gamma and alpha tweak the equation)
-        self.q[s, a] += α * (r + γ * max_q_next_state - q[s, a])
-
-    def update_v_values(self):
-        for s in self.mdp.S:
-            self.v[s] = self.q[s, 0:self.action_count].max()
