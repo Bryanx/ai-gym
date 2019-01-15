@@ -16,6 +16,6 @@ register(
 )
 
 if __name__ == '__main__':
-    strategy: Strategy = MonteCarlo(gym.make('FrozenLakeNotSlippery-v0'), episode_count=1000)
+    strategy: Strategy = NStepQLearning(gym.make('FrozenLakeNotSlippery-v0'), episode_count=1000)
     agent = Agent(strategy)
     agent.learn()
