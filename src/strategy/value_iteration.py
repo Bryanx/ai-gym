@@ -22,7 +22,7 @@ class ValueIteration(Strategy):
             for s in self.mdp.S:
                 old_value = self.v[s]
                 self.v[s] = self.value_function(s)
-                self.Δ = abs(old_value - self.v[s])
+                self.Δ = max(self.Δ, abs(old_value - self.v[s]))
 
     def value_function(self, s: int):
         A = self.get_action_values(s)
