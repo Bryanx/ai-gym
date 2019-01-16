@@ -1,5 +1,6 @@
 import numpy as np
 from gym import Env
+from math import inf
 
 from src.model.percept import Percept
 from src.strategy.strategy import Strategy
@@ -16,7 +17,7 @@ class ValueIteration(Strategy):
     def evaluate(self, percept: Percept):
         self.mdp.update(percept)
         rmax = np.amax(self.mdp.rewardPerState)
-        self.Δ = 50000000
+        self.Δ = inf
         while self.Δ > self.ξ * rmax * (1 - self.γ / self.γ):
             self.Δ = 0
             for s in self.mdp.S:
